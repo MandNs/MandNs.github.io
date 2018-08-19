@@ -1,11 +1,11 @@
-
+    
 $(document).ready(function(){
 
 
 	/* ---- Countdown timer ---- */
 
 	$('#counter').countdown({
-		timestamp : (new Date()).getTime() + 08*10*60*60*1000
+		timestamp : (new Date("September 01 2018 17:30"))
 	});
 
 
