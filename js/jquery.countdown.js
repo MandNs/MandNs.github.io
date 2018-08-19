@@ -16,10 +16,11 @@
 	// Creating the plugin
 	$.fn.countdown = function(prop){
 		
-		var options = $.extend({
-			callback	: function(){},
-			timestamp	: 0
-		},prop);
+      var targetDate = new Date("September 01 2018 17:30");
+		  var options = $.extend({
+			    callback	: function(){},
+			    timestamp	: targetDate
+		  },prop);
 		
 		var left, d, h, m, s, positions;
 
@@ -30,37 +31,36 @@
 		
 		(function tick(){
 			
-			// Time leftx
-			left = Math.floor((options.timestamp - (new Date())) / 1000);
+			  // Time leftx
+			  left = Math.floor((options.timestamp - (new Date())) / 1000);
+			  if(left < 0){
+				    left = 0;
+			  }
 			
-			if(left < 0){
-				left = 0;
-			}
+			  // Number of days left
+			  d = Math.floor(left / days);
+			  updateDuo(1, 0, d);
+			  left -= d*days;
+			  
+			  // Number of hours left
+			  h = Math.floor(left / hours);
+			  updateDuo(3, 2, h);
+			  left -= h*hours;
+			  
+			  // Number of minutes left
+			  m = Math.floor(left / minutes);
+			  updateDuo(5, 4, m);
+			  left -= m*minutes;
 			
-			// Number of days left
-			d = Math.floor(left / days);
-			updateDuo(0, 1, d);
-			left -= d*days;
+			  // Number of seconds left
+			  s = left;
+			  updateDuo(7, 6, s);
+			  
+			  // Calling an optional user supplied callback
+			  options.callback(d, h, m, s);
 			
-			// Number of hours left
-			h = Math.floor(left / hours);
-			updateDuo(2, 3, h);
-			left -= h*hours;
-			
-			// Number of minutes left
-			m = Math.floor(left / minutes);
-			updateDuo(4, 5, m);
-			left -= m*minutes;
-			
-			// Number of seconds left
-			s = left;
-			updateDuo(6, 7, s);
-			
-			// Calling an optional user supplied callback
-			options.callback(d, h, m, s);
-			
-			// Scheduling another call of this function in 1s
-			setTimeout(tick, 1000);
+			  // Scheduling another call of this function in 1s
+			  setTimeout(tick, 1000);
 		})();
 		
 		// This function updates two digit positions at once
@@ -113,10 +113,10 @@
 	// Creates an animated transition between the two numbers
 	function switchDigit(position,number){
 		
-		var digit = position.find('.digit')
+		  var digit = position.find('.digit');
 		
-		if(digit.is(':animated')){
-			return false;
+		  if(digit.is(':animated')){
+			    return false;
 		}
 		
 		if(position.data('digit') == number){
