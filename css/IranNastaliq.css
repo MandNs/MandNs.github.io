@@ -1,5 +1,6 @@
 @font-face {
     font-family: 'Nastaliq';
+    letter-spacing: normal;
     src: url('../fonts/IranNastaliq.ttf');
     font-weight: normal;
     font-style: normal;
